@@ -12,11 +12,11 @@ This project automates hiking recommendations by combining real-time weather con
 
 ## Features
 
-- Real-time weather analysis using OpenWeatherMap
-- AI-generated hiking recommendations
-- Trail data retrieval from Google Sheets
-- Automated email delivery through Gmail
-- End-to-end workflow orchestration with n8n
+- Real-time weather analysis using **OpenWeatherMap**
+- AI-powered hiking recommendations using an **LLM**
+- Trail data retrieval from **Google Sheets**
+- Automated email delivery through **Gmail**
+- End-to-end workflow orchestration with **n8n**
 
 ---
 
@@ -43,9 +43,9 @@ This project automates hiking recommendations by combining real-time weather con
 ## How It Works
 
 1. The workflow is triggered on a schedule.
-2. The AI agent retrieves the current weather.
+2. The AI agent retrieves real-time weather data from OpenWeatherMap.
 3. Trail information is fetched from Google Sheets.
-4. The LLM analyzes weather conditions and trail data.
+4. The LLM analyzes the weather and trail data.
 5. Personalized hiking recommendations are generated.
 6. The recommendations are emailed to the user.
 
@@ -84,7 +84,7 @@ weather-aware-hiking-agent/
 - Support multiple hiking locations
 - Integrate live air quality and rainfall forecasts
 - Add terrain difficulty and elevation analysis
-- Generate interactive maps
+- Integrate interactive trail maps
 - Send notifications via Telegram or WhatsApp
 
 ---

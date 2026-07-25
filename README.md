@@ -15,6 +15,7 @@ This project automates hiking recommendations by combining real-time weather con
 - Real-time weather analysis using **OpenWeatherMap**
 - AI-powered hiking recommendations using an **LLM**
 - Trail data retrieval from **Google Sheets**
+- Calendar-aware reporting via **Google Calendar** (checks for upcoming scheduled hikes)
 - Automated email delivery through **Gmail**
 - End-to-end workflow orchestration with **n8n**
 
@@ -45,9 +46,10 @@ This project automates hiking recommendations by combining real-time weather con
 1. The workflow is triggered on a schedule.
 2. The AI agent retrieves real-time weather data from OpenWeatherMap.
 3. Trail information is fetched from Google Sheets.
-4. The LLM analyzes the weather and trail data.
-5. Personalized hiking recommendations are generated.
-6. The recommendations are emailed to the user.
+4. The agent checks Google Calendar for any hikes scheduled in the next few days.
+5. The LLM analyzes the weather and trail data.
+6. Personalized hiking recommendations are generated.
+7. The recommendations are emailed to the user.
 
 ---
 

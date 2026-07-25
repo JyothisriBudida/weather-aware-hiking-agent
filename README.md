@@ -35,7 +35,7 @@ This project automates hiking recommendations by combining real-time weather con
 ## Workflow
 
 <p align="center">
-  <img src="assets/workflow.png" alt="Workflow" width="900">
+  <img src="assets/workflow_image.png" alt="Workflow" width="900">
 </p>
 
 ---

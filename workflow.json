@@ -1,0 +1,241 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        -112
+      ],
+      "id": "8b2b069c-a325-4a32-9be4-f2a1128f7e0e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Read the locations from Google Sheets.\nUse OpenWeatherMap to get the weather for each location.\nCreate a concise weather report.\n\nFormat the report as clean HTML (not plain text) so it renders properly in Gmail. Follow this structure:\n- <h2> for the main title (\"Weather Report for Hyderabad Hiking Trails\")\n- <h3> subheadings for each section (e.g. \"Current Conditions\", \"Trail Recommendations\")\n- <ul><li> bullet lists for individual data points — never a single run-on paragraph\n- <strong> to bold key labels (e.g. temperature, humidity)\n- Group trail recommendations into two lists: \"Shady trails\" and \"Exposed trails\", based on the Shade Level column\n- A short closing <p> note about elevation/temperature caveats, wrapped in <em>\n- Do not include markdown syntax (no **, no ##, no === dividers) — HTML tags only\n\nSend it via Gmail, setting the email content type to HTML.\n\nWhen calling the Gmail tool, ensure the message content is valid within a JSON string — escape any double quotes and avoid unescaped special characters.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        -112
+      ],
+      "id": "3f0b67b0-14ff-4c26-b703-cd5b448cd870",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        224,
+        96
+      ],
+      "id": "791f4768-62a3-41c5-8717-b23e9b002098",
+      "name": "OpenRouter1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "1BMruFI8mmGnZyHr",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "cityName": "Hyderabad"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        544,
+        96
+      ],
+      "id": "8327496f-9a94-42bb-86bd-733df420b674",
+      "name": "getWeather",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "88GticXypocyFfAH",
+          "name": "OpenWeatherMap account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "your-email@gmail.com",                                    
+          "mode": "list",
+          "cachedResultName": "your-email@gmail.com"
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        96
+      ],
+      "id": "d3e6ffa8-8695-4308-875b-8b46f6f94c66",
+      "name": "CheckCalender",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "sjp6EW9UMarjzrIT",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1l7AqYmL4ZaFSHw6l9cZZ4X3u87pE-BlJxqXZhk6rbWo",
+          "mode": "list",
+          "cachedResultName": "Hyderabad_Hiking_Trails",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1l7AqYmL4ZaFSHw6l9cZZ4X3u87pE-BlJxqXZhk6rbWo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1319395365,
+          "mode": "list",
+          "cachedResultName": "Hyderabad Trails",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1l7AqYmL4ZaFSHw6l9cZZ4X3u87pE-BlJxqXZhk6rbWo/edit#gid=1319395365"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        800,
+        96
+      ],
+      "id": "66a5fdc1-3b11-4ccd-a965-84dbb04d9199",
+      "name": "getTrailList",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CKtoEgyZ87HYdMwl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        96
+      ],
+      "id": "ddbbb8bf-0167-41ae-87e2-915c85430eb2",
+      "name": "Send a message in Gmail",
+      "webhookId": "ab59ab12-7ada-4bcb-8341-023df0661047",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Sb2CQyaPZyVsNXsO",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getWeather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CheckCalender": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getTrailList": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e3105b6d-01dc-4f31-ac0c-f5859f4e23fb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7e0b9669aa48c2cba95f61cdd793fb3c7890064957243bb3376b514e3506114c"
+  },
+  "nodeGroups": [],
+  "id": "k4vZDkpuiezG4qGP",
+  "tags": []
+}
